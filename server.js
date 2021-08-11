@@ -1,12 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
-//const bodyParser = require("body-parser");
+//const bodyParser = require("body-parser") deprecated;
 const cors = require("cors");
-const { readFileSync } = require("fs");
+const { readdirSync } = require("fs");
 require("dotenv").config();
-
-// routes
 
 // app server
 const app = express();
@@ -27,7 +25,8 @@ app.use(morgan("dev"));
 app.use(express.json({ limit: "2mb" }));
 app.use(cors());
 
-// routes middleware
+// routes middlewares
+readdirSync("./routes").map((r) => app.use("/api", require("./routes/" + r)));
 
 // port
 const port = process.env.PORT || 8000;
