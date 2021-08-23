@@ -6,14 +6,13 @@ exports.create = async (req, res) => {
     const { name, parent } = req.body;
     res.json(await new Sub({ name, parent, slug: slugify(name) }).save());
   } catch (err) {
-    console.log("SUB CREATE ERR ---->", err);
+    console.log("SUB CREATE ERR ----->", err);
     res.status(400).send("Create sub failed");
   }
 };
 
-exports.list = async (req, res) => {
+exports.list = async (req, res) =>
   res.json(await Sub.find({}).sort({ createdAt: -1 }).exec());
-};
 
 exports.read = async (req, res) => {
   let sub = await Sub.findOne({ slug: req.params.slug }).exec();
