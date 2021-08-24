@@ -55,7 +55,7 @@ exports.update = async (req, res) => {
       { slug: req.params.slug },
       req.body,
       { new: true }
-    ).exect();
+    ).exec();
     res.json(updated);
   } catch (err) {
     console.log("PRODUCT UPDATED ERROR ----> ", err);
