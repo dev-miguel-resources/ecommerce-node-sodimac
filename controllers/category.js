@@ -1,5 +1,6 @@
 const Category = require("../models/category");
 const Sub = require("../models/sub");
+const Product = require("../models/product");
 const slugify = require("slugify");
 
 // middlewares controller
@@ -17,9 +18,21 @@ exports.list = async (req, res) => {
   res.json(await Category.find({}).sort({ createdAt: -1 }).exec());
 };
 
-exports.read = async (req, res) => {
+// read only category
+/*exports.read = async (req, res) => {
   let category = await Category.findOne({ slug: req.params.slug }).exec();
   res.json(category);
+};*/
+
+// read category with products
+exports.read = async (req, res) => {
+  let category = await Category.findOne({ slug: req.params.slug }).exec();
+  const products = await Product.find({ category }).populate("category").exec();
+
+  res.json({
+    category,
+    products,
+  });
 };
 
 exports.update = async (req, res) => {
